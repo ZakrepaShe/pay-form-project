@@ -1,0 +1,57 @@
+include mixin
+
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        title Payments
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.css')
+        link(rel='stylesheet', href='css/style.css')
+
+
+    body
+        div.main-title Thank you for choosing to subscribe to PDFfiller services!
+        div.pay-wrapper
+            form(
+            id="payForm"
+            class="pay-forms-wrap"
+            method="post"
+            novalidate="novalidate")
+                +pay-title('Cardholder Name')
+                div
+                    +p-input("firstName","First Name")(class="first-name")
+                div
+                    +p-input("lastName","Last Name")(class="last-name")
+                +pay-title('Card Number')
+                div.small-wide
+                    +p-input("cardNumber","•••• •••• •••• ••••")(class="card-number")
+                div.card-ico-holder
+                    img(src="img/visa.png", alt="visa")
+                    img(src="img/mc.png", alt="mastercard")
+                    img(src="img/disc.png", alt="discover")
+                    img(src="img/ae.png", alt="american express")
+                +pay-title('Exp.Date')(class="exp-title")
+                div.exp-date
+                    +p-select('expMonth','MM',1,12)(class="exp-month")
+                    span.exp-divider /
+                    +p-select('expYear','YYYY',2017,2025)(class="exp-year")
+                +pay-title('CVV/CVC')(class="cvv-title")
+                div.cvv-holder
+                    +p-input("cvvCode","XXXX")(class="half")
+                    span.cvv-info
+                    div.cvv-popup
+                        +tooltip-part("img/mc-cvv.png", "mastercard", "Visa, MasterCard", "3-Digit Verification Number")
+                        span.divider
+                        +tooltip-part("img/ae-cvv.png", "american express", "American Express", "4-Digit Verification Number")
+                +pay-title('Zip/Postal Code')
+                div.space-after.small-wide
+                    +p-input("zipCode","01001")(class="zip-code")
+                div.pay-pal
+                    div.title Or pay with Paypal
+                    div.pal-button
+                div.doudle
+                    input.submit-btn(type="submit", id="submit", value="Start My Subscription for $19.99/mo.")
+        script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+        script(src='https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.jquery.min.js')
+        script(src='js/script.js')

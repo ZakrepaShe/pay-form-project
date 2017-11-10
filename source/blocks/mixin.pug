@@ -1,0 +1,19 @@
+mixin pay-title(name)
+    div(class="pay-title")&attributes(attributes)= name
+
+mixin p-input(name,placeholder)
+    input(id=name, name=name, type="text", placeholder=placeholder)&attributes(attributes)
+    label(for=name)
+
+mixin p-select(name,placeholder,fromVal,toVal)
+    select(id=name, name=name, data-placeholder=placeholder)&attributes(attributes)
+        option
+        - for(var i = fromVal;i <= toVal; i++)
+            option(value=i)= i
+    label(for=name)
+
+mixin tooltip-part(imgPath,altText,boldText,regularText)
+    div
+        img(src=imgPath, alt=altText)
+        p.bold= boldText
+        p= regularText

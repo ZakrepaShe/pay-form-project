@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Payments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="main-title">Thank you for choosing to subscribe to PDFfiller services!</div>
+    <div class="pay-wrapper">
+      <form class="pay-forms-wrap" id="payForm" method="post" novalidate="novalidate">
+        <div class="pay-title">Cardholder Name</div>
+        <div>
+          <input class="first-name" id="firstName" name="firstName" type="text" placeholder="First Name"/>
+          <label for="firstName"></label>
+        </div>
+        <div>
+          <input class="last-name" id="lastName" name="lastName" type="text" placeholder="Last Name"/>
+          <label for="lastName"></label>
+        </div>
+        <div class="pay-title">Card Number</div>
+        <div class="small-wide">
+          <input class="card-number" id="cardNumber" name="cardNumber" type="text" placeholder="•••• •••• •••• ••••"/>
+          <label for="cardNumber"></label>
+        </div>
+        <div class="card-ico-holder"><img src="img/visa.png" alt="visa"><img src="img/mc.png" alt="mastercard"><img src="img/disc.png" alt="discover"><img src="img/ae.png" alt="american express"></div>
+        <div class="pay-title exp-title">Exp.Date</div>
+        <div class="exp-date">
+          <select class="exp-month" id="expMonth" name="expMonth" data-placeholder="MM">
+            <option></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+          <label for="expMonth"></label><span class="exp-divider">/</span>
+          <select class="exp-year" id="expYear" name="expYear" data-placeholder="YYYY">
+            <option></option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+          </select>
+          <label for="expYear"></label>
+        </div>
+        <div class="pay-title cvv-title">CVV/CVC</div>
+        <div class="cvv-holder">
+          <input class="half" id="cvvCode" name="cvvCode" type="text" placeholder="XXXX"/>
+          <label for="cvvCode"></label><span class="cvv-info"></span>
+          <div class="cvv-popup">
+            <div><img src="img/mc-cvv.png" alt="mastercard"/>
+              <p class="bold">Visa, MasterCard</p>
+              <p>3-Digit Verification Number</p>
+            </div><span class="divider"></span>
+            <div><img src="img/ae-cvv.png" alt="american express"/>
+              <p class="bold">American Express</p>
+              <p>4-Digit Verification Number</p>
+            </div>
+          </div>
+        </div>
+        <div class="pay-title">Zip/Postal Code</div>
+        <div class="space-after small-wide">
+          <input class="zip-code" id="zipCode" name="zipCode" type="text" placeholder="01001"/>
+          <label for="zipCode"></label>
+        </div>
+        <div class="pay-pal">
+          <div class="title">Or pay with Paypal</div>
+          <div class="pal-button"></div>
+        </div>
+        <div class="doudle">
+          <input class="submit-btn" type="submit" id="submit" value="Start My Subscription for $19.99/mo.">
+        </div>
+      </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.jquery.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
