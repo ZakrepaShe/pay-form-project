@@ -1,16 +1,16 @@
-mixin pay-title(name)
-    div(class="pay-title")&attributes(attributes)= name
+mixin pay-title(name,forAttr)
+    label(class="pay-form__item-title pay-form__content-item", for=forAttr)&attributes(attributes)= name
 
 mixin p-input(name,placeholder)
-    input(id=name, name=name, type="text", placeholder=placeholder)&attributes(attributes)
-    label(for=name)
+    input(id=name, name=name, type="text", placeholder=placeholder, class="to-validate")&attributes(attributes)
+    span(class='error-tooltip '+name)
 
 mixin p-select(name,placeholder,fromVal,toVal)
-    select(id=name, name=name, data-placeholder=placeholder)&attributes(attributes)
+    select(id=name, name=name, data-placeholder=placeholder, class="to-validate")&attributes(attributes)
         option
         - for(var i = fromVal;i <= toVal; i++)
             option(value=i)= i
-    label(for=name)
+    span(class='error-tooltip '+name)
 
 mixin tooltip-part(imgPath,altText,boldText,regularText)
     div

@@ -1,6 +1,12 @@
 $(document).ready(function () {
+
+    //Init select appearance change plugin jQuery chosen
     $("#expMonth").chosen({disable_search_threshold: 20});
     $("#expYear").chosen({disable_search_threshold: 20});
+
+    /** Remove error outlines from all fields on click
+        show tooltip on cvv if click was on it
+     */
     $('body').on('click',function (e) {
         $("input.error, select.error").removeClass('error');
         if($(e.target).hasClass("cvv-info")||$(e.target).hasClass("cvv-popup")){
@@ -9,19 +15,23 @@ $(document).ready(function () {
             $(".cvv-popup").removeClass('active');
         }
     });
+
+    //Init validator plugin jQuery validate
     $.validator.setDefaults({
         ignore: []
     });
     $("#payForm").validate({
         onfocusout: false,
+        //Custom errors show
         showErrors: function(errorMap, errorList) {
             $("input.error, select.error").removeClass('error');
             if(errorList.length) {
-                $('label[for="'+errorList[0].element.id+'"]').html(errorList[0].message);
+                $('span.'+errorList[0].element.id).html(errorList[0].message);
                 errorList[0].element.focus();
                 $(errorList[0]['element']).addClass("error");
             }
         },
+        //Rules for all check input fields & selects
         rules: {
             firstName: { required: true, minlength: 2 },
             lastName: { required: true, minlength: 2 },
@@ -31,6 +41,7 @@ $(document).ready(function () {
             cvvCode: { required: true, minlength: 3,digits: true },
             zipCode: { required: true}
         },
+        //Messages on all rules
         messages: {
             firstName: { required: "Field Required", minlength: "First Name minimal 2 letters" },
             lastName: { required: "Field Required", minlength: "Last Name minimal 2 letters" },
@@ -45,14 +56,20 @@ $(document).ready(function () {
         }
     });
 
-    $("#payForm > div > input").keydown( function (e) {
+    //Validate single input field on enter & tab & focusout
+    $("#payForm .to-validate").on( "keydown focusout" ,function (e) {
         if (e.keyCode === 13 || e.keyCode === 9){
             $("#payForm").validate().element( '#'+e.target.id );
         }
     });
+
+    //Validate selects on  focusout
     $("#expMonth_chosen, #expYear_chosen").on('focusout',function () {
         $("#payForm").validate().element( '#'+this.id.replace('_chosen','') );
     });
+
+    //Rules for pay card number digits sorting like **** **** **** ****
+    //Non-digits cuts off
     $("#cardNumber").keydown( function () {
         var v = this.value;
         v = v.replace(/\D/g, "");
@@ -61,6 +78,8 @@ $(document).ready(function () {
         v = v.replace(/^(\d{4})\s(\d{4})\s(\d{4})(\d)/g, "$1 $2 $3 $4");
         this.value = v
     });
+
+    //Prevent default submitting form on enter to validate single element
     $("body").keydown( function (e) {
         if (e.keyCode === 13){
             e.preventDefault();

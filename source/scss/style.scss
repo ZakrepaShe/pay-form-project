@@ -1,12 +1,16 @@
-$medium: 1024px;
-$small: 768px;
 
+//some keypoint variables for @media
+$tablet-max: 1024px;
+$mobile-max: 768px;
+
+//mixins
 @mixin media($width){
   @media screen and (max-width: $width){
     @content
   }
 }
 
+//fonts
 @font-face {
   font-family: 'ArialMT';
   src: url('../font/ArialMT.ttf') format('truetype');
@@ -21,446 +25,538 @@ $small: 768px;
   font-weight: normal;
 }
 
+
+//tiny custom normalization
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+fieldset{
+  border: none;
+}
+
+//styles with BEM components, but not fully BEM
+
+//structure
+
+//Main block
+  //Sub-block
+    //element class
+      //@media keypoints for element
+      //element additional pseudo structure (&:before, &:after )
+      //element additional pseudo states (&:focus, &:hover )
+      //element additional class states or style variants (&.error, &.other-order )
+      //sub-elements (.class)...
+
 body {
   background: #F2F2F2;
   font-family: "ArialMT",sans-serif;
 
-  @include media($small){
+  @include media($mobile-max){
     background: #fff;
   }
 }
 
-@for $i from 1 to 15{
-  .pay-forms-wrap > div:nth-of-type(#{$i}){
-    order: $i
-  }
-}
-.main-title{
-  font-size: 24px;
-  color: rgb(68,68,68);
-  margin-bottom: 30px;
-  text-align: center;
-  margin-top: 45px;
-
-  @include media($small){
-    font-size: 20px;
-    margin-bottom: 0;
-  }
-}
-
-.pay-wrapper {
+//Main block
+.pay-form {
   max-width: 900px;
   position: relative;
   margin: 0 auto;
+  min-width: 320px;
 
-  @include media($medium){
-    max-width: 540px;
-  }
-
-  @include media($small){
+  @include media($mobile-max){
     max-width: 100%;
     padding: 15px;
   }
 
-  .pay-forms-wrap{
+  //Sub-block
+  &__title{
+    font-size: 24px;
+    color: rgb(68,68,68);
+    margin-bottom: 30px;
+    text-align: center;
+    padding-top: 45px;
+
+    @include media($mobile-max){
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+  }
+
+  //Sub-block
+  &__wrapper{
     display: flex;
     justify-content: flex-end;
     flex-flow: row wrap;
     width: 60%;
 
-    @include media($medium){
+    @include media($tablet-max){
       width: 100%;
+      max-width: 540px;
+      margin: 0 auto;
     }
 
-    @include media($small){
+    @include media($mobile-max){
       justify-content: space-between;
+      max-width: 460px;
+    }
+  }
+
+  //Sub-block
+  &__content-item {
+    margin: 10px 0;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    position: relative;
+
+    @include media($mobile-max){
+      margin-left: 0;
+      width: 49%;
     }
 
-    & > * {
-      margin: 10px 0;
-      width: 30%;
-      display: flex;
-      align-items: center;
-      margin-left: 15px;
-      position: relative;
+    &.first-name{
+      order:2;
+    }
 
-      @include media($small){
-        margin-left: 0;
-        width: 49%;
+    &.last-name{
+      order:3;
+    }
+
+    &.card-number{
+      order:5;
+    }
+
+    &.card-ico-holder{
+      order:6;
+    }
+
+    &.exp-date{
+      justify-content: space-between;
+      order:8;
+
+      @include media($mobile-max){
+        width: 55%;
       }
 
-      &.pay-title{
-        justify-content: flex-end;
-        font-size: 14px;
-        color: rgb(68,68,68);
-        font-family: "Arial-BoldMT",sans-serif;
-        font-weight: bold;
 
-        @include media($small){
-          justify-content: flex-start;
-          width: 100%;
-          margin: 5px 0 -1px 0;
-        }
-      }
-
-      &.exp-title{
-        @include media($small){
-          width: 55%;
-        }
-      }
-
-      &.exp-date{
-        justify-content: space-between;
-
-        @include media($small){
-          width: 55%;
-        }
-
-        .exp-month, .exp-month+div{
-          width: 62px !important;
-          @include media($small){
-            width: 40% !important;
-          }
-        }
-
-        .exp-year,.exp-year+div{
-          width: 75px !important;
-          @include media($small){
-            width: 50% !important;
-          }
-        }
-
-        select, .chosen-single{
-          border-radius: 3px;
-          background: #ffffff;
-          border: 1px solid #cccccc;
-          box-shadow: inset 1px 1px 1px rgba(0,0,0,.2);
-          font-size: 14px;
-          color: rgb(136,136,136);
-          line-height: 30px;
-          height: 30px;
-        }
-
-        .chosen-container-active {
-          box-shadow: 0px 0px 4px 0px #4D90FE;
-        }
-
-        .chosen-container-active.chosen-with-drop .chosen-single {
-          border-bottom-right-radius: 0;
-          border-bottom-left-radius: 0;
-        }
-
-        .chosen-container .chosen-drop {
-          border: 1px solid #cccccc;
-        }
-
-        .chosen-container .chosen-results {
-          max-height: 300px;
-        }
-
-        .chosen-container-single .chosen-single div b{
-          background-position: 0 5px;
-        }
-
-        .chosen-container-active.chosen-with-drop .chosen-single div b {
-          background-position: -18px 5px;
-        }
-
-        .chosen-container .chosen-results li{
-          padding: 5px 3px;
+      //Override default styles for select plugin chosen
+      .exp-month, .exp-month+.chosen-container{
+        width: 62px !important;
+        @include media($mobile-max){
+          width: 40% !important;
         }
       }
 
-      input[type="text"], .exp-month, .exp-year{
-        width: 160px;
-        height: 30px;
-        line-height: 30px;
+      .exp-year,.exp-year+.chosen-container{
+        width: 75px !important;
+        @include media($mobile-max){
+          width: 50% !important;
+        }
+      }
+
+      select.to-validate, .chosen-single{
         border-radius: 3px;
-        padding: 11px;
-        background-color: #ffffff;
+        background: #ffffff;
         border: 1px solid #cccccc;
         box-shadow: inset 1px 1px 1px rgba(0,0,0,.2);
         font-size: 14px;
         color: rgb(136,136,136);
+        line-height: 30px;
+        height: 30px;
+        padding: 0 0 0 11px;
+      }
 
-        &~label{
-          display: none;
-          position: absolute;
-          left: 50%;
-          bottom: 110%;
-          transform: translateX(-50%);
-          border-radius: 3px;
-          box-shadow: 0px 2px 2px rgba(0,0,0,0.12);
-          background-color: #ffebee;
+      .chosen-container-active {
+        box-shadow: 0px 0px 4px 0px #4D90FE;
+      }
+
+      .chosen-container-active.chosen-with-drop .chosen-single {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      .chosen-container .chosen-drop {
+        border: 1px solid #cccccc;
+      }
+
+      .chosen-container .chosen-results {
+        max-height: 300px;
+      }
+
+      .chosen-container-single .chosen-single div b{
+        background-position: 0 5px;
+      }
+
+      .chosen-container-active.chosen-with-drop .chosen-single div b {
+        background-position: -18px 5px;
+      }
+
+      .chosen-container .chosen-results li{
+        padding: 5px 3px;
+      }
+
+      .chosen-container-single .chosen-single span {
+        margin-right: 20px;
+      }
+      //Override default styles for select plugin end
+    }
+
+    .to-validate {
+      width: 162px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 3px;
+      padding: 11px;
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      box-shadow: inset 1px 1px 1px rgba(0,0,0,.2);
+      font-size: 14px;
+      color: rgb(136,136,136);
+      outline: none;
+
+      &:focus {
+        border: 1px solid #4D90FE;
+      }
+
+      &.error{
+        outline: none;
+        border: 1px solid #ef5350;
+
+        &:focus {
           border: 1px solid #ef5350;
-          padding: 10px;
-          font-size: 13px;
-          color: rgb(239,83,80);
-          font-family: "Arial-BoldMT", sans-serif;
-          font-weight: bold;
-          white-space: nowrap;
-
-          &:before{
-            content: '';
-            position: absolute;
-            right: 50%;
-            bottom: -7px;
-            width: 10px;
-            height: 10px;
-            transform: rotate(45deg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            background-color: #ffebee;
-            border: 1px solid #ef5350;
-          }
-
-          &:after{
-            content: '';
-            position: absolute;
-            height: 10px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #ffebee;
-          }
         }
 
-        &.error{
-          outline: 1px solid #ef5350;
-          & + label {
-            display: block;
-          }
-        }
-
-        &.half{
-          width: 83px;
-          @include media($small){
-            width: 100%;
-          }
-        }
-
-        @include media($small){
-          width: 100%;
+      & + .error-tooltip {
+          display: block;
         }
       }
 
-      .exp-month.error ~ label:first-of-type{
-        display: block;
-        left: 35px;
-      }
-      .exp-year.error ~ label:last-of-type{
-        display: block;
-        right: -80px;
-        left: auto;
-      }
-
-      &.card-ico-holder{
-        display: flex;
-        justify-content: space-between;
-
-        @include media($small){
-          justify-content: space-evenly;
-          width: 100%;
-          order: 0;
-        }
-      }
-
-      &.space-after {
-        margin-right: 33%;
-
-        @include media($small){
-          margin-right: 0;
-        }
-      }
-
-      &.doudle {
-        width: 63%;
-
-        @include media($small){
-          width: 100%;
-        }
-      }
-
-      &.cvv-title {
-        width: 62px;
-
-        @include media($small){
-          width: 40%;
-          order: 7;
-        }
-      }
-      &.cvv-holder{
-        position: relative;
+      &.cvv-code{
         width: 85px;
-
-        @include media($small){
-          width: 40%;
-        }
-
-        .cvv-info {
-          position: absolute;
-          top: 50%;
-          right: 5px;
-          transform: translateY(-50%);
-          background: url("../img/info-ico.png");
-          width: 22px;
-          height: 22px;
-
-          &:hover {
-            opacity: .75;
-          }
-        }
-
-        .cvv-popup{
-          display: none;
-          position: absolute;
-          padding: 15px;
-          justify-content: space-between;
-          right: -4px;
-          bottom: 90%;
-          font-size: 12px;
-          line-height: 16px;
-          color: rgb(68,68,68);
-          border-radius: 3px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-          background-color: #ffffff;
-          border: 1px solid #cccccc;
-          z-index:1;
-
-          &:before{
-            content: '';
-            position: absolute;
-            right: 10px;
-            bottom: -8px;
-            width: 15px;
-            height: 15px;
-            transform: rotate(45deg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            background-color: #ffffff;
-            border: 1px solid #cccccc;
-          }
-
-          &:after{
-            content: '';
-            position: absolute;
-            height: 15px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-          }
-
-          &.active {
-            display: flex;
-          }
-
-          img {
-            margin-bottom: 20px;
-          }
-
-          .bold{
-            font-family: "Arial-BoldMT",sans-serif;
-            font-weight: bold;
-          }
-
-          .divider {
-            width: 1px;
-            background-color: #dddddd;
-            margin: 0 15px;
-          }
-        }
-      }
-
-      &.pay-pal{
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 342px;
-        height: auto;
-        justify-content: center;
-        border-radius: 3px;
-        background-color: #f7f7f7;
-        border: 1px solid #dddddd;
-
-        @include media($medium){
-          position: relative;
-          justify-content: space-between;
-          padding: 15px;
-          width: 63%;
-        }
-
-        @include media($small){
+        padding-right: 22px;
+        @include media($mobile-max){
           width: 100%;
-          padding: 12px;
-        }
-
-        .title {
-          font-size: 18px;
-          color: rgb(68,68,68);
-          text-align: center;
-          position: absolute;
-          top: 25%;
-
-          @include media($medium){
-            position: relative;
-            text-align: left;
-            top: auto;
-            font-size: 14px;
-          }
-        }
-
-        .pal-button{
-          position: relative;
-          width: 137px;
-          height: 52px;
-          background: url(../img/pay-pal-btn.png) no-repeat center;
-          cursor: pointer;
-          background-size: cover;
-
-          @include media($medium){
-            width: 100px;
-            height: 38px;
-          }
-
-          &:hover {
-            opacity: .75;
-          }
         }
       }
 
-      .submit-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      @include media($mobile-max){
         width: 100%;
-        height: 40px;
-        border-radius: 3px;
-        background-color: #ff9000;
-        background-image: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%,rgba(0,0,0,0.4) 100%);
-        background-blend-mode: soft-light;
-        border: 1px solid #fd7721;
-        font-size: 14px;
-        color: rgb(255,255,255);
-        font-family: "Arial-BoldMT",sans-serif;
-        font-weight: bold;
-        cursor: pointer;
+      }
+    }
+
+    .error-tooltip{
+      display: none;
+      position: absolute;
+      left: 50%;
+      bottom: 110%;
+      transform: translateX(-50%);
+      border-radius: 3px;
+      box-shadow: 0px 2px 2px rgba(0,0,0,0.12);
+      background-color: #ffebee;
+      border: 1px solid #ef5350;
+      padding: 10px;
+      font-size: 13px;
+      color: rgb(239,83,80);
+      font-family: "Arial-BoldMT", sans-serif;
+      font-weight: bold;
+      white-space: nowrap;
+
+      &:before{
+        content: '';
+        position: absolute;
+        right: 50%;
+        bottom: -7px;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        background-color: #ffebee;
+        border: 1px solid #ef5350;
+      }
+
+      &:after{
+        content: '';
+        position: absolute;
+        height: 10px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #ffebee;
+      }
+    }
+
+    .exp-month.error ~ .expMonth{
+      display: block;
+      left: 35px;
+
+      @include media($mobile-max){
+        left: 50px;
+      }
+    }
+
+    .exp-year.error ~ .expYear{
+      display: block;
+      right: -80px;
+      left: auto;
+      z-index: 1;
+
+      @include media($mobile-max){
+        right: -50px;
+      }
+    }
+
+    &.card-ico-holder{
+      display: flex;
+      justify-content: space-between;
+
+      @include media($mobile-max){
+        justify-content: space-evenly;
+        width: 100%;
+        order: 0;
+      }
+    }
+
+    &.space-after {
+      margin-right: 33%;
+
+      @include media($mobile-max){
+        margin-right: 0;
+      }
+    }
+
+    &.cvv-holder{
+      position: relative;
+      width: 85px;
+      order: 10;
+
+      @include media($mobile-max){
+        width: 40%;
+      }
+
+      .cvv-info {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        background: url("../img/info-ico.png");
+        width: 22px;
+        height: 22px;
 
         &:hover {
           opacity: .75;
         }
       }
 
-      &.small-wide{
-        @include media($small){
-          width: 100%;
+      .cvv-popup{
+        display: none;
+        position: absolute;
+        padding: 15px;
+        justify-content: space-between;
+        right: -4px;
+        bottom: 90%;
+        font-size: 12px;
+        line-height: 16px;
+        color: rgb(68,68,68);
+        border-radius: 3px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        z-index:1;
+
+        &:before{
+          content: '';
+          position: absolute;
+          right: 10px;
+          bottom: -8px;
+          width: 15px;
+          height: 15px;
+          transform: rotate(45deg);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          background-color: #ffffff;
+          border: 1px solid #cccccc;
+        }
+
+        &:after{
+          content: '';
+          position: absolute;
+          height: 15px;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: white;
+        }
+
+        &.active {
+          display: flex;
+        }
+
+        img {
+          margin-bottom: 20px;
+        }
+
+        .bold{
+          font-family: "Arial-BoldMT",sans-serif;
+          font-weight: bold;
+        }
+
+        .divider {
+          width: 1px;
+          background-color: #dddddd;
+          margin: 0 15px;
         }
       }
     }
+
+    &.zip-code{
+      order:12;
+    }
+
+    &.pay-pal{
+      position: absolute;
+      top: 103px;
+      right: 0;
+      bottom: 0;
+      width: 342px;
+      height: auto;
+      justify-content: center;
+      border-radius: 3px;
+      background-color: #f7f7f7;
+      border: 1px solid #dddddd;
+      order:13;
+
+      @include media($tablet-max){
+        position: relative;
+        justify-content: space-between;
+        padding: 15px;
+        width: 63%;
+        top: 0;
+      }
+
+      @include media($mobile-max){
+        width: 100%;
+        padding: 12px;
+      }
+
+      .title {
+        font-size: 18px;
+        color: rgb(68,68,68);
+        text-align: center;
+        position: absolute;
+        top: 25%;
+
+        @include media($tablet-max){
+          position: relative;
+          text-align: left;
+          top: auto;
+          font-size: 14px;
+        }
+      }
+
+      .pal-button{
+        position: relative;
+        width: 137px;
+        height: 52px;
+        background: url(../img/pay-pal-btn.png) no-repeat center;
+        cursor: pointer;
+        background-size: cover;
+
+        @include media($tablet-max){
+          width: 100px;
+          height: 38px;
+        }
+
+        &:hover {
+          opacity: .75;
+        }
+      }
+    }
+
+    &.submit-wrapper {
+      width: 63%;
+      order: 13;
+
+      @include media($mobile-max){
+        width: 100%;
+      }
+    }
+
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 40px;
+      border-radius: 3px;
+      background-color: #ff9000;
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0.4) 0%,rgba(0,0,0,0.4) 100%);
+      background-blend-mode: soft-light;
+      border: 1px solid #fd7721;
+      font-size: 14px;
+      color: rgb(255,255,255);
+      font-family: "Arial-BoldMT",sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        opacity: .75;
+      }
+    }
+
+    &.mobile-wide{
+      @include media($mobile-max){
+        width: 100%;
+      }
+    }
+  }
+
+  //Subblock
+  &__item-title{
+    justify-content: flex-end;
+    font-size: 14px;
+    color: rgb(68,68,68);
+    font-family: "Arial-BoldMT",sans-serif;
+    font-weight: bold;
+
+    @include media($mobile-max){
+      justify-content: flex-start;
+      width: 100%;
+      margin: 5px 0 -1px 0;
+    }
+
+    &.first-name{
+      order:1;
+    }
+
+    &.card-number{
+      order:4;
+    }
+
+    &.exp-title{
+      order: 7;
+
+      @include media($mobile-max){
+        width: 55%;
+      }
+    }
+
+    &.cvv-title{
+      order: 9;
+      width: 62px;
+
+      @include media($mobile-max){
+        width: 40%;
+        order: 7;
+      }
+    }
+
+    &.zip-code{
+      order: 11;
+    }
+
+
   }
 }
